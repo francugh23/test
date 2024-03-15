@@ -18,6 +18,21 @@ const db = mysql.createConnection({
   database: "test"
 })
 
+// Add user-admin
+app.post('/add_user', (req, res)=>{
+  sql = "INSERT INTO users (admin_id, fullname, username, password) VALUES (?, ?, ?, ?)";
+  const values = [
+    req.body.adminID,
+    req.body.fullname,
+    req.body.username,
+    req.body.password,
+  ]
+  db.query(sql, values, (err, result)=>{
+    if(err) return res.json({message: 'Something unexpected has occured' + err})
+    return res.json({success: "User successfully added."})
+  })
+})
+
 app.listen(port, ()=>{
   console.log("Listening")
 })
